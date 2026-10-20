@@ -113,8 +113,13 @@ export const siteUrl = () => {
   return "http://localhost:3000";
 };
 
-export const telHref = () => (site.phone ? `tel:${site.phone.replace(/\s/g, "")}` : null);
-export const whatsappHref = (message = "Hi Crankified's — I'd like to make a booking.") =>
-  site.whatsapp
-    ? `https://wa.me/${site.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`
+export const telHref = () => {
+  const phone = site.phone as string;
+  return phone ? `tel:${phone.replace(/\s/g, "")}` : null;
+};
+export const whatsappHref = (message = "Hi Crankified's — I'd like to make a booking.") => {
+  const whatsapp = site.whatsapp as string;
+  return whatsapp
+    ? `https://wa.me/${whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`
     : null;
+};
