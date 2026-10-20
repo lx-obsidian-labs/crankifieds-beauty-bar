@@ -82,8 +82,12 @@ type LocalStore = {
   inquiries: InquiryRow[];
 };
 
-const localPath = path.join(process.cwd(), ".data", "store.json");
+const isLambda = Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.VERCEL);
+const localPath = isLambda
+  ? path.join("/tmp", "crankified-store.json")
+  : path.join(process.cwd(), ".data", "store.json");
 let localQueue: Promise<unknown> = Promise.resolve();
+let memoryStore: LocalStore | null = null;
 
 const emptyStore = (): LocalStore => ({
   bookings: [],
@@ -93,17 +97,25 @@ const emptyStore = (): LocalStore => ({
 });
 
 async function readLocal(): Promise<LocalStore> {
+  if (memoryStore) return memoryStore;
   try {
     const raw = await fs.readFile(localPath, "utf8");
-    return { ...emptyStore(), ...(JSON.parse(raw) as LocalStore) };
+    memoryStore = { ...emptyStore(), ...(JSON.parse(raw) as LocalStore) };
+    return memoryStore;
   } catch {
-    return emptyStore();
+    memoryStore = emptyStore();
+    return memoryStore;
   }
 }
 
 async function writeLocal(store: LocalStore) {
-  await fs.mkdir(path.dirname(localPath), { recursive: true });
-  await fs.writeFile(localPath, JSON.stringify(store, null, 2), "utf8");
+  memoryStore = store;
+  try {
+    await fs.mkdir(path.dirname(localPath), { recursive: true });
+    await fs.writeFile(localPath, JSON.stringify(store, null, 2), "utf8");
+  } catch {
+    // Read-only / ephemeral runtimes (Vercel): keep serving from memory.
+  }
 }
 
 function mutateLocal<T>(fn: (store: LocalStore) => T | Promise<T>): Promise<T> {
