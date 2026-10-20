@@ -18,3 +18,6 @@ __pycache__
 .env.local
 .next
 .github
+
+.vercel
+.data
