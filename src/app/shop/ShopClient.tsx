@@ -148,7 +148,7 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
     <>
       <div className="border-y border-line bg-[#f6f0e6]">
         <div className="shell flex flex-col gap-4 py-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
+          <div className="scroll-row" role="group" aria-label="Product category">
             {productCategories.map((item) => (
               <button
                 key={item.id}
@@ -162,27 +162,28 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
             ))}
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="flex gap-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="scroll-row">
               {(["all", "Brand new", "Pre-owned"] as const).map((value) => (
                 <button
                   key={value}
                   type="button"
                   aria-pressed={condition === value}
                   onClick={() => setCondition(value)}
-                  className="border-b border-transparent px-1 pb-1 text-[10px] uppercase tracking-[0.16em] text-ink/40 transition-colors hover:text-ink aria-pressed:border-champagne aria-pressed:text-ink"
+                  className="border-b-2 border-transparent px-1 pb-1.5 pt-1 text-[10px] uppercase tracking-[0.16em] text-ink/40 transition-colors hover:text-ink aria-pressed:border-champagne aria-pressed:text-ink"
                 >
                   {value === "all" ? "All conditions" : value}
                 </button>
               ))}
             </div>
-            <label className="relative">
+            <label className="relative block">
               <span className="sr-only">Search the vault</span>
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search the vault"
-                className="w-full border border-line bg-cream px-4 py-2.5 text-[12px] placeholder:text-ink/35 focus:border-champagne focus:outline-none sm:w-52"
+                type="search"
+                className="w-full border border-line bg-cream px-4 py-3 text-[16px] placeholder:text-ink/35 focus:border-champagne focus:outline-none sm:w-52 sm:py-2.5 sm:text-[12px]"
               />
             </label>
           </div>
@@ -280,7 +281,7 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
       </div>
 
       {active && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 sm:flex sm:justify-end">
           <button
             type="button"
             aria-label="Close order panel"
@@ -291,20 +292,22 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
             role="dialog"
             aria-modal="true"
             aria-labelledby="order-title"
-            className="relative flex h-full w-full max-w-lg flex-col overflow-y-auto bg-cream animate-drawer"
+            className="drawer-panel w-full bg-cream pb-[env(safe-area-inset-bottom)] sm:max-w-lg sm:pb-0"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-cream/95 px-5 py-4 backdrop-blur">
+            <div className="mx-auto mt-2.5 h-1 w-10 shrink-0 rounded-full bg-ink/15 sm:hidden" aria-hidden="true" />
+            <div className="sticky top-0 z-10 flex min-h-[3.5rem] items-center justify-between border-b border-line bg-cream/95 px-5 py-3.5 backdrop-blur">
               <p className="label text-stone">The vault</p>
               <button
                 ref={closeRef}
                 type="button"
                 onClick={close}
-                className="flex h-9 w-9 items-center justify-center border border-line transition-colors hover:border-ink"
+                className="flex h-11 w-11 items-center justify-center border border-line transition-colors hover:border-ink"
                 aria-label="Close"
               >
                 <Close className="h-4 w-4" />
               </button>
             </div>
+            <div className="flex-1 overflow-y-auto overscroll-contain">
 
             {result ? (
               <div className="flex flex-1 flex-col justify-center px-6 py-10">
@@ -523,7 +526,7 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
                       href={site.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.18em] text-ink/45 hover:text-ink"
+                      className="mt-4 flex min-h-[2.75rem] items-center justify-center gap-2 text-[10px] uppercase tracking-[0.18em] text-ink/45 hover:text-ink"
                     >
                       <Instagram className="h-3.5 w-3.5" /> DM us on Instagram
                     </a>
@@ -531,6 +534,7 @@ export function ShopClient({ products, initialCategory, initialProduct }: Props)
                 </div>
               </form>
             )}
+            </div>
           </div>
         </div>
       )}

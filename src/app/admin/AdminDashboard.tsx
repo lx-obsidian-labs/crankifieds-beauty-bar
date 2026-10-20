@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type {
   BookingRow,
   InquiryRow,
@@ -113,12 +114,12 @@ export function AdminDashboard({
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <a
+            <Link
               href="/"
               className="hidden items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-ink/45 hover:text-ink sm:flex"
             >
               View site <ArrowUpRight className="h-3 w-3" />
-            </a>
+            </Link>
             <button
               type="button"
               onClick={signOut}

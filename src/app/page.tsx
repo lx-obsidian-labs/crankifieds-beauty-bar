@@ -102,7 +102,7 @@ export default function HomePage() {
           aria-hidden="true"
         />
 
-        <div className="shell flex min-h-[94svh] flex-col justify-between pb-9 pt-16 md:min-h-[92svh] md:pb-12 md:pt-24">
+        <div className="shell flex min-h-[94svh] flex-col justify-between pb-8 pt-12 sm:pb-9 sm:pt-16 md:min-h-[92svh] md:pb-12 md:pt-24">
           <div className="animate-fade-up">
             <p className="label flex flex-wrap items-center gap-x-4 gap-y-2 text-ivory/60">
               <Sparkle className="h-3.5 w-3.5 text-champagne" />
@@ -113,7 +113,7 @@ export default function HomePage() {
               <span>By appointment</span>
             </p>
 
-            <h1 className="display mt-7 text-[clamp(3.3rem,9.6vw,8.6rem)] text-ivory">
+            <h1 className="display mt-6 text-[clamp(2.9rem,14vw,8.6rem)] text-ivory sm:mt-7 md:text-[clamp(3.3rem,9.6vw,8.6rem)]">
               The luxury
               <br />
               of being
@@ -122,7 +122,7 @@ export default function HomePage() {
             </h1>
           </div>
 
-          <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end">
+          <div className="mt-10 grid gap-8 sm:mt-12 sm:gap-10 md:grid-cols-12 md:items-end">
             <div className="animate-fade-up md:col-span-7 lg:col-span-6">
               <p className="lede max-w-lg text-ivory/70">
                 Hair, lashes and nails in Ermelo — done one client at a time, with the
@@ -131,7 +131,7 @@ export default function HomePage() {
                 else to leave with.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
                 <Link href="/book" className="btn btn-gold">
                   Book an appointment <ArrowRight />
                 </Link>
@@ -143,7 +143,7 @@ export default function HomePage() {
 
             <div className="animate-fade-up border-t border-ivory/20 pt-5 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
               <p className="label text-champagne">Walk-ins</p>
-              <p className="display mt-3 text-3xl text-ivory">Thursdays only</p>
+              <p className="display mt-3 text-[1.65rem] text-ivory sm:text-3xl">Thursdays only</p>
               <p className="mt-3 text-[12.5px] leading-relaxed text-ivory/50">
                 Every other day is by appointment, so the chair is yours alone.
                 Thursday walk-ins are welcome while the chair is free.

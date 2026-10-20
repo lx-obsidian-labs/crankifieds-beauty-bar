@@ -120,21 +120,37 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
   useEffect(() => {
     if (!serviceId || step < 2) return;
     const controller = new AbortController();
-    setAvailability((current) => ({ ...(current ?? { date, open: true, slots: [] }), loading: true, error: undefined }));
     const params = new URLSearchParams({ date, service: serviceId });
     if (addonIds.length) params.set("addons", addonIds.join(","));
 
-    fetch(`/api/availability?${params.toString()}`, { signal: controller.signal })
-      .then(async (response) => {
+    const load = async () => {
+      setAvailability((current) => ({
+        ...(current ?? { date, open: true, slots: [] }),
+        loading: true,
+        error: undefined,
+      }));
+
+      try {
+        const response = await fetch(`/api/availability?${params.toString()}`, {
+          signal: controller.signal,
+        });
         const payload = (await response.json()) as Availability & { error?: string };
         if (!response.ok) throw new Error(payload.error ?? "Could not load times.");
         setAvailability({ ...payload, loading: false });
         setTime((current) => (payload.slots.includes(current) ? current : ""));
-      })
-      .catch((error: Error) => {
-        if (error.name === "AbortError") return;
-        setAvailability({ date, open: false, slots: [], loading: false, error: error.message });
-      });
+      } catch (caught) {
+        if ((caught as Error).name === "AbortError") return;
+        setAvailability({
+          date,
+          open: false,
+          slots: [],
+          loading: false,
+          error: (caught as Error).message,
+        });
+      }
+    };
+
+    void load();
 
     return () => controller.abort();
   }, [date, serviceId, addonIds, step, reload]);
@@ -354,9 +370,10 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
 
   /* ── Wizard ────────────────────────────────────────────────────────────── */
   return (
-    <div ref={topRef} className="scroll-mt-28 grid gap-10 lg:grid-cols-12 lg:gap-8">
+    <div ref={topRef} className="scroll-mt-28 grid gap-10 pb-24 lg:grid-cols-12 lg:gap-8 lg:pb-0">
       <div className="lg:col-span-7 xl:col-span-7">
-        <ol className="grid grid-cols-4 gap-2 border-b border-line pb-5" aria-label="Booking progress">
+        {/* Mobile-first stepper: numbers + short labels, scroll-safe. */}
+        <ol className="grid grid-cols-4 gap-1.5 border-b border-line pb-5 sm:gap-2" aria-label="Booking progress">
           {steps.map((label, index) => {
             const active = index === step;
             const complete = index < step;
@@ -439,8 +456,8 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
                         setTime("");
                         setNotice("");
                       }}
-                      className={`group flex w-full items-start gap-4 border-b border-line py-5 text-left transition-colors ${
-                        active ? "bg-ink/[0.035]" : "hover:bg-ink/[0.02]"
+                      className={`group flex w-full items-start gap-3.5 border-b border-line py-5 pr-1 text-left transition-colors sm:gap-4 ${
+                        active ? "bg-ink/[0.035]" : "hover:bg-ink/[0.02] active:bg-ink/[0.04]"
                       }`}
                     >
                       <span
@@ -559,23 +576,23 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
               </p>
 
               <div className="mt-6 border border-line bg-cream">
-                <div className="flex items-center justify-between border-b border-line px-4 py-3">
+                <div className="flex items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3">
                   <button
                     type="button"
                     onClick={() => setViewMonth(shiftMonth(viewMonth, -1))}
                     disabled={viewMonth <= monthKey(today)}
                     aria-label="Previous month"
-                    className="flex h-9 w-9 items-center justify-center transition-colors hover:bg-ink/5 disabled:opacity-25"
+                    className="flex h-11 w-11 items-center justify-center transition-colors hover:bg-ink/5 active:bg-ink/10 disabled:opacity-25"
                   >
                     <ChevronLeft />
                   </button>
-                  <p className="text-[11px] uppercase tracking-[0.2em]">{monthLabel(viewMonth)}</p>
+                  <p className="px-1 text-center text-[11px] uppercase tracking-[0.2em]">{monthLabel(viewMonth)}</p>
                   <button
                     type="button"
                     onClick={() => setViewMonth(shiftMonth(viewMonth, 1))}
                     disabled={viewMonth >= monthKey(horizonEnd)}
                     aria-label="Next month"
-                    className="flex h-9 w-9 items-center justify-center transition-colors hover:bg-ink/5 disabled:opacity-25"
+                    className="flex h-11 w-11 items-center justify-center transition-colors hover:bg-ink/5 active:bg-ink/10 disabled:opacity-25"
                   >
                     <ChevronRight />
                   </button>
@@ -612,7 +629,7 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
                             setTime("");
                             setNotice("");
                           }}
-                          className={`relative mx-auto flex h-10 w-10 items-center justify-center text-[12.5px] transition-colors sm:h-11 sm:w-11 ${
+                          className={`relative mx-auto flex h-11 w-full min-w-0 max-w-[2.9rem] items-center justify-center text-[12.5px] transition-colors sm:h-11 sm:w-11 sm:max-w-none ${
                             selected
                               ? "bg-ink text-ivory"
                               : disabled
@@ -679,17 +696,17 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
                               <p className="text-[9px] uppercase tracking-[0.2em] text-ink/35">
                                 {group.label}
                               </p>
-                              <div className="mt-2.5 flex flex-wrap gap-2">
+                              <div className="mt-2.5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
                                 {group.slots.map((slot) => (
                                   <button
                                     key={slot}
                                     type="button"
                                     aria-pressed={time === slot}
                                     onClick={() => setTime(slot)}
-                                    className={`min-w-[4.6rem] border px-3 py-2.5 text-[12px] transition-colors ${
+                                    className={`flex min-h-[3rem] items-center justify-center border px-3 py-3 text-[12.5px] transition-colors sm:min-w-[4.6rem] sm:py-2.5 sm:text-[12px] ${
                                       time === slot
                                         ? "border-ink bg-ink text-ivory"
-                                        : "border-line bg-cream hover:border-ink/50"
+                                        : "border-line bg-cream hover:border-ink/50 active:border-ink/70"
                                     }`}
                                   >
                                     {slot}
@@ -896,9 +913,40 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
         </div>
       </div>
 
-      {/* Summary */}
+      {/* Summary — sticky bottom bar on mobile, sidebar on desktop */}
       <aside className="lg:col-span-4 lg:col-start-9">
-        <div className="border border-line bg-cream lg:sticky lg:top-28">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-cream/97 px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden">
+          <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="truncate text-[12.5px] text-ink/70">
+                {selection ? selection.service.name : "Choose a service"}
+                {time ? ` · ${time}` : ""}
+              </p>
+              {selection ? (
+                <p className="mt-0.5 font-display text-xl leading-tight">
+                  {formatZAR(selection.price)}
+                </p>
+              ) : null}
+            </div>
+            <div className="shrink-0">
+              {step < 3 ? (
+                <button
+                  type="button"
+                  onClick={() => goto(step + 1)}
+                  disabled={!canContinue()}
+                  className="btn btn-ink !w-auto !min-h-[3rem] !px-6"
+                >
+                  Continue <ArrowRight />
+                </button>
+              ) : (
+                <p className="font-display text-xl">{selection ? formatZAR(selection.price) : ""}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden lg:block lg:sticky lg:top-28">
+        <div className="border border-line bg-cream">
           <div className="border-b border-line p-6">
             <p className="label text-stone">Your appointment</p>
             {selection ? (
@@ -960,10 +1008,11 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
           </div>
         </div>
 
-        <p className="mt-4 px-1 text-[11px] leading-relaxed text-ink/40">
+        <p className="mt-4 px-1 pb-24 text-[11px] leading-relaxed text-ink/40 lg:pb-0">
           By appointment only. Walk-ins are welcome on Thursdays while the chair is free.
           Longer services may need a small deposit to hold the slot.
         </p>
+        </div>
       </aside>
     </div>
   );

@@ -27,10 +27,6 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -47,7 +43,7 @@ export function SiteHeader() {
   return (
     <>
       <div className="bg-ink text-ivory/65">
-        <div className="shell flex h-9 items-center justify-between gap-4 text-[9.5px] uppercase tracking-[0.22em]">
+        <div className="shell flex h-9 items-center justify-center gap-4 text-center text-[9.5px] uppercase tracking-[0.22em] sm:justify-between sm:text-left">
           <span className="hidden sm:block">
             {site.city} &middot; {site.province}
           </span>
@@ -69,8 +65,8 @@ export function SiteHeader() {
           scrolled ? "shadow-[0_18px_40px_-32px_rgba(11,10,9,0.55)]" : ""
         }`}
       >
-        <div className="shell flex h-[74px] items-center justify-between gap-6">
-          <Wordmark />
+        <div className="shell flex h-16 items-center justify-between gap-4 sm:h-[74px] sm:gap-6">
+          <Wordmark compact className="sm:[&>*:first-child]:text-[27px]" />
 
           <nav aria-label="Main" className="hidden items-center gap-8 lg:flex xl:gap-10">
             {nav.map((item) => {
@@ -135,21 +131,22 @@ export function SiteHeader() {
 
           <nav
             aria-label="Mobile"
-            className="shell flex flex-1 flex-col justify-center gap-1 overflow-y-auto py-10"
+            className="shell flex flex-1 flex-col justify-center gap-1 overflow-y-auto py-8"
           >
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="group flex items-baseline gap-5 border-b border-ivory/10 py-5"
+                onClick={() => setOpen(false)}
+                className="group flex min-h-[3.5rem] items-center gap-4 border-b border-ivory/10 py-4"
               >
                 <span className="text-[9px] tracking-[0.2em] text-champagne">
                   {item.index}
                 </span>
-                <span className="display flex-1 text-[2.4rem] text-ivory transition-colors group-hover:text-champagne">
+                <span className="display flex-1 text-[clamp(1.9rem,8.5vw,2.4rem)] text-ivory transition-colors group-hover:text-champagne">
                   {item.label}
                 </span>
-                <ArrowUpRight className="h-4 w-4 text-ivory/40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-champagne" />
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-ivory/40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-champagne" />
               </Link>
             ))}
           </nav>

@@ -18,6 +18,7 @@ __pycache__
 .env.local
 .next
 .github
+tsconfig.tsbuildinfo
 
 .vercel
 .data
