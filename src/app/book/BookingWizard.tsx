@@ -697,8 +697,7 @@ export function BookingWizard({ today, horizonEnd, initialService }: Props) {
                                 ))}
                               </div>
                             </div>
-                          ))
-                        )}
+                          ))}
                       </div>
                     ) : (
                       <div className="mt-4 border border-line bg-cream p-5">
