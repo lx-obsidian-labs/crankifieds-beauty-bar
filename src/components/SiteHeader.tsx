@@ -53,7 +53,7 @@ export function SiteHeader() {
           </span>
           <Link
             href="/book"
-            className="hidden shrink-0 items-center gap-1.5 transition-colors hover:text-ivory sm:inline-flex"
+            className="hidden shrink-0 items-center gap-1.5 transition-colors hover:text-champagne sm:inline-flex"
           >
             Book online <ArrowUpRight className="h-2.5 w-2.5" />
           </Link>
@@ -61,11 +61,17 @@ export function SiteHeader() {
       </div>
 
       <header
-        className={`sticky top-0 z-40 border-b border-line bg-cream/92 backdrop-blur-md transition-shadow duration-500 ${
-          scrolled ? "shadow-[0_18px_40px_-32px_rgba(11,10,9,0.55)]" : ""
+        className={`sticky top-0 z-40 border-b bg-cream/92 backdrop-blur-md transition-all duration-500 ${
+          scrolled
+            ? "border-line shadow-[0_18px_40px_-32px_rgba(11,10,9,0.55)]"
+            : "border-transparent"
         }`}
       >
-        <div className="shell flex h-16 items-center justify-between gap-4 sm:h-[74px] sm:gap-6">
+        <div
+          className={`shell flex items-center justify-between gap-4 transition-all duration-500 sm:gap-6 ${
+            scrolled ? "h-14 sm:h-16" : "h-16 sm:h-[74px]"
+          }`}
+        >
           <Wordmark compact className="sm:[&>*:first-child]:text-[27px]" />
 
           <nav aria-label="Main" className="hidden items-center gap-8 lg:flex xl:gap-10">
@@ -92,7 +98,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-3">
             <Link
               href="/book"
-              className="btn btn-ink hidden !px-6 !py-3.5 sm:inline-flex"
+              className="btn btn-lux shine hidden !px-6 !py-3.5 sm:inline-flex"
             >
               Book now
               <ArrowUpRight />
@@ -102,7 +108,7 @@ export function SiteHeader() {
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               aria-expanded={open}
-              className="flex h-11 w-11 items-center justify-center border border-line transition-colors hover:border-ink lg:hidden"
+              className="flex h-11 w-11 items-center justify-center border border-line transition-colors hover:border-ink hover:bg-ink hover:text-ivory lg:hidden"
             >
               <Menu />
             </button>
@@ -154,7 +160,7 @@ export function SiteHeader() {
           <div className="shell shrink-0 border-t border-ivory/10 py-6">
             <Link
               href="/book"
-              className="btn btn-gold w-full"
+              className="btn btn-lux shine w-full"
               onClick={() => setOpen(false)}
             >
               Book an appointment <ArrowUpRight />

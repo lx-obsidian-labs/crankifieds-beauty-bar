@@ -108,7 +108,7 @@ export default function AboutPage() {
               <h1 className="display mt-6 text-[clamp(3rem,7vw,5.8rem)]">
                 One chair.
                 <br />
-                One <span className="italic">standard.</span>
+                One <span className="italic text-gold">standard.</span>
               </h1>
               <p className="lede mt-6 max-w-lg text-ink/65">
                 Crankified&rsquo;s is a private beauty bar in {site.city} for hair, lashes
@@ -116,23 +116,23 @@ export default function AboutPage() {
                 appointment, done properly.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <Link href="/book" className="btn btn-ink">
+                <Link href="/book" className="btn btn-lux shine">
                   Book an appointment <ArrowRight />
                 </Link>
-                <a href="#contact" className="btn btn-outline">
+                <a href="#contact" className="btn btn-ghost">
                   Ask a question
                 </a>
               </div>
             </div>
 
             <div className="lg:col-span-5 lg:col-start-8">
-              <div className="relative aspect-[4/5] overflow-hidden bg-ink/10">
+              <div className="relative aspect-[4/5] overflow-hidden bg-ink/10 shadow-[0_50px_100px_-60px_rgba(11,10,9,0.85)]">
                 <img
                   src={images.studio}
                   alt="The Crankified's studio interior"
                   className="img-cover"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-6 pt-16">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent p-6 pt-20">
                   <p className="text-[9.5px] uppercase tracking-[0.2em] text-ivory/55">
                     {site.city} &middot; {site.province}
                   </p>

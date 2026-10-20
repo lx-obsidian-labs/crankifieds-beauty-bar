@@ -90,14 +90,14 @@ export default function ServicesPage() {
                       {category.description}
                     </p>
                   </div>
-                  <div className="reveal relative mt-8 aspect-[4/5] overflow-hidden bg-ink/10">
+                  <div className="reveal relative mt-8 aspect-[4/5] overflow-hidden bg-ink/10 shadow-[0_40px_80px_-50px_rgba(11,10,9,0.75)]">
                     <img
                       src={category.image}
                       alt={`${category.name} work at Crankified's Beauty Bar`}
                       loading="lazy"
-                      className="img-cover"
+                      className="img-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.06]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent" />
                     <p className="absolute bottom-5 left-5 right-5 text-[10px] uppercase tracking-[0.2em] text-ivory/75">
                       {category.blurb}
                     </p>
@@ -110,15 +110,15 @@ export default function ServicesPage() {
                   {category.services.map((service) => (
                     <div
                       key={service.id}
-                      className="group grid gap-3 border-b border-line py-6 sm:grid-cols-[1fr_auto] sm:gap-8"
+                      className="group grid gap-3 border-b border-line py-6 transition-colors hover:bg-ink/[0.025] sm:grid-cols-[1fr_auto] sm:gap-8 sm:px-4"
                     >
                       <div>
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          <h3 className="font-display text-[1.45rem] leading-tight">
+                          <h3 className="font-display text-[1.45rem] leading-tight transition-colors group-hover:text-champagne-deep">
                             {service.name}
                           </h3>
                           {service.signature && (
-                            <span className="inline-flex items-center gap-1 bg-champagne/20 px-2 py-0.5 text-[8px] uppercase tracking-[0.16em] text-ink/60">
+                            <span className="inline-flex items-center gap-1 border border-champagne/45 bg-champagne/12 px-2 py-0.5 text-[8px] uppercase tracking-[0.16em] text-champagne-deep">
                               <Sparkle className="h-2.5 w-2.5" /> Signature
                             </span>
                           )}
@@ -141,7 +141,7 @@ export default function ServicesPage() {
                         </p>
                         <Link
                           href={`/book?service=${service.id}`}
-                          className="inline-flex items-center gap-1.5 border-b border-ink/20 pb-0.5 text-[9.5px] uppercase tracking-[0.18em] text-ink/55 transition-colors hover:border-ink hover:text-ink"
+                          className="inline-flex items-center gap-1.5 border-b border-ink/20 pb-0.5 text-[9.5px] uppercase tracking-[0.18em] text-ink/55 transition-colors hover:border-champagne hover:text-champagne-deep"
                         >
                           Book <ArrowUpRight className="h-2.5 w-2.5" />
                         </Link>

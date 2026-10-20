@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Jost } from "next/font/google";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { MobileBar } from "@/components/MobileBar";
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     description: site.description,
     images: [
       {
-        url: "/opengraph-image.svg",
+        url: "/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: `${site.name} — hair, lashes and nails in ${site.city}`,
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${site.name} — Hair, Lashes & Nails in Ermelo`,
     description: site.description,
-    images: ["/opengraph-image.svg"],
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
@@ -91,7 +92,7 @@ const structuredData = {
   name: site.name,
   description: site.description,
   url,
-  image: `${url}/opengraph-image.svg`,
+  image: `${url}/opengraph-image.png`,
   priceRange: "R120 – R1 450",
   currenciesAccepted: "ZAR",
   address: {
@@ -154,6 +155,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="flex min-h-full flex-col pb-[50px] sm:pb-0">
+        <ScrollProgress />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:bg-ink focus:px-5 focus:py-3 focus:text-xs focus:uppercase focus:tracking-widest focus:text-ivory"

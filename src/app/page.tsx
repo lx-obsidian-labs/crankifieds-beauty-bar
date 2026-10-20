@@ -5,6 +5,8 @@ import { categories, rewards } from "@/lib/services";
 import { products } from "@/lib/products";
 import { site, whatsappHref } from "@/lib/site";
 import { formatDuration, formatZAR } from "@/lib/format";
+import { Ambient } from "@/components/Ambient";
+import { Gallery, galleryItems } from "@/components/Gallery";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -94,11 +96,15 @@ export default function HomePage() {
         <img
           src={images.hero}
           alt="Warm light inside a private beauty studio"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+          className="absolute inset-0 -z-20 h-full w-full scale-105 object-cover object-center"
           fetchPriority="high"
         />
         <div
-          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(11,10,9,0.86)_0%,rgba(11,10,9,0.42)_38%,rgba(11,10,9,0.72)_72%,rgba(11,10,9,0.97)_100%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(11,10,9,0.88)_0%,rgba(11,10,9,0.44)_36%,rgba(11,10,9,0.74)_70%,rgba(11,10,9,0.98)_100%)]"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 -z-10 bg-[radial-gradient(120%_75%_at_78%_18%,rgba(194,160,106,0.20)_0%,rgba(194,160,106,0)_58%)]"
           aria-hidden="true"
         />
 
@@ -118,8 +124,15 @@ export default function HomePage() {
               <br />
               of being
               <br />
-              <span className="italic text-champagne-light">properly kept.</span>
+              <span className="text-gold italic">properly kept.</span>
             </h1>
+
+            <div className="mt-7 flex items-center gap-4 sm:mt-8">
+              <span className="gold-rule w-24" aria-hidden="true" />
+              <span className="text-[9.5px] uppercase tracking-[0.3em] text-ivory/45">
+                Est. {site.established} &middot; Ermelo
+              </span>
+            </div>
           </div>
 
           <div className="mt-10 grid gap-8 sm:mt-12 sm:gap-10 md:grid-cols-12 md:items-end">
@@ -132,22 +145,43 @@ export default function HomePage() {
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link href="/book" className="btn btn-gold">
+                <Link href="/book" className="btn btn-lux shine">
                   Book an appointment <ArrowRight />
                 </Link>
-                <Link href="/services" className="btn btn-outline-light">
+                <Link href="/services" className="btn btn-ghost-light">
                   View the menu
                 </Link>
               </div>
+
+              <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ivory/15 pt-6">
+                {[
+                  { term: "One client", detail: "per appointment" },
+                  { term: "60+", detail: "styles on the menu" },
+                  { term: "1–3 days", detail: "vault delivery" },
+                ].map((stat) => (
+                  <div key={stat.term}>
+                    <dt className="font-display text-[1.35rem] leading-tight text-champagne-light sm:text-2xl">
+                      {stat.term}
+                    </dt>
+                    <dd className="mt-1.5 text-[9px] uppercase tracking-[0.2em] text-ivory/40">
+                      {stat.detail}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
-            <div className="animate-fade-up border-t border-ivory/20 pt-5 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
-              <p className="label text-champagne">Walk-ins</p>
-              <p className="display mt-3 text-[1.65rem] text-ivory sm:text-3xl">Thursdays only</p>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-ivory/50">
-                Every other day is by appointment, so the chair is yours alone.
-                Thursday walk-ins are welcome while the chair is free.
-              </p>
+            <div className="animate-fade-up md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
+              <div className="glass-dark p-6">
+                <p className="label text-champagne">Walk-ins</p>
+                <p className="display mt-3 text-[1.65rem] text-ivory sm:text-3xl">
+                  Thursdays only
+                </p>
+                <p className="mt-3 text-[12.5px] leading-relaxed text-ivory/50">
+                  Every other day is by appointment, so the chair is yours alone.
+                  Thursday walk-ins are welcome while the chair is free.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -256,12 +290,36 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Gallery ──────────────────────────────────────────────────────── */}
+      <section className="border-t border-line bg-cream">
+        <div className="shell py-20 md:py-28">
+          <div className="reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <SectionLabel index="02">The work</SectionLabel>
+              <h2 className="display mt-6 max-w-2xl text-[clamp(2.6rem,5vw,4.6rem)]">
+                Seen from
+                <br />
+                <span className="italic text-gold">the chair.</span>
+              </h2>
+            </div>
+            <p className="max-w-sm text-[13.5px] leading-relaxed text-ink/60">
+              Every set is finished, photographed and checked before you leave. This is
+              the standard you should expect — not the exception.
+            </p>
+          </div>
+
+          <div className="mt-12">
+            <Gallery items={galleryItems} />
+          </div>
+        </div>
+      </section>
+
       {/* ── Services ─────────────────────────────────────────────────────── */}
       <section className="border-t border-line bg-[#f6f0e6]">
         <div className="shell py-20 md:py-28">
           <div className="reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <SectionLabel index="02">The menu</SectionLabel>
+              <SectionLabel index="03">The menu</SectionLabel>
               <h2 className="display mt-6 max-w-2xl text-[clamp(2.6rem,5vw,4.6rem)]">
                 Three disciplines.
                 <br />
@@ -281,7 +339,7 @@ export default function HomePage() {
                 <Link
                   key={category.id}
                   href={`/services#${category.id}`}
-                  className="reveal group relative isolate flex flex-col justify-end overflow-hidden bg-ink text-ivory"
+                  className="reveal group relative isolate flex flex-col justify-end overflow-hidden bg-ink text-ivory shadow-[0_30px_60px_-40px_rgba(11,10,9,0.75)] transition-shadow duration-700 hover:shadow-[0_50px_90px_-46px_rgba(11,10,9,0.85)]"
                   data-delay={index > 2 ? undefined : index + 1}
                 >
                   <div className="relative aspect-[3/4] w-full overflow-hidden">
@@ -289,17 +347,25 @@ export default function HomePage() {
                       src={category.image}
                       alt={`${category.name} at Crankified's`}
                       loading="lazy"
-                      className="img-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.045]"
+                      className="img-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
                     />
                     <div
-                      className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,10,9,0.15)_0%,rgba(11,10,9,0.1)_35%,rgba(11,10,9,0.88)_100%)]"
+                      className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,10,9,0.28)_0%,rgba(11,10,9,0.12)_35%,rgba(11,10,9,0.9)_100%)]"
                       aria-hidden="true"
+                    />
+                    <div
+                      className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                      aria-hidden="true"
+                      style={{
+                        background:
+                          "radial-gradient(90% 60% at 50% 0%, rgba(194,160,106,0.26) 0%, rgba(194,160,106,0) 70%)",
+                      }}
                     />
                     <div className="absolute inset-x-0 top-0 flex items-start justify-between p-6">
                       <span className="text-[10px] uppercase tracking-[0.28em] text-ivory/60">
                         {category.index}
                       </span>
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-ivory/30 transition-colors group-hover:border-champagne group-hover:bg-champagne group-hover:text-ink">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-ivory/30 backdrop-blur-sm transition-all duration-500 group-hover:rotate-45 group-hover:border-champagne group-hover:bg-champagne group-hover:text-ink">
                         <ArrowUpRight className="h-3.5 w-3.5" />
                       </span>
                     </div>
@@ -330,21 +396,26 @@ export default function HomePage() {
       </section>
 
       {/* ── Statement ────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-ink text-ivory">
-        <div className="shell py-20 md:py-28">
+      <section className="relative isolate overflow-hidden bg-ink text-ivory">
+        <Ambient />
+        <div className="shell relative py-20 md:py-28">
           <div className="reveal mx-auto max-w-4xl text-center">
             <p className="label text-champagne">The standard</p>
             <blockquote className="display mt-7 text-[clamp(2rem,4.6vw,4rem)] leading-[1.05] text-balance">
               &ldquo;You should leave the chair feeling like the most{" "}
-              <span className="italic text-champagne-light">expensive</span> thing in the
+              <span className="italic text-gold">expensive</span> thing in the
               room.&rdquo;
             </blockquote>
-            <p className="mt-6 text-[10px] uppercase tracking-[0.26em] text-ivory/40">
-              The Crankified&rsquo;s standard
-            </p>
+            <div className="mx-auto mt-8 flex max-w-xs items-center gap-4">
+              <span className="gold-rule flex-1" aria-hidden="true" />
+              <span className="text-[9.5px] uppercase tracking-[0.3em] text-ivory/40">
+                Crankified&rsquo;s
+              </span>
+              <span className="gold-rule flex-1" aria-hidden="true" />
+            </div>
           </div>
 
-          <div className="mt-16 grid gap-8 border-t border-ivory/10 pt-10 md:grid-cols-3">
+          <div className="mt-16 grid gap-5 md:grid-cols-3">
             {[
               {
                 quote:
@@ -367,13 +438,20 @@ export default function HomePage() {
             ].map((testimonial, index) => (
               <figure
                 key={testimonial.name}
-                className="reveal"
+                className="reveal group relative border border-ivory/12 bg-ivory/[0.045] p-7 backdrop-blur-sm transition-all duration-700 hover:-translate-y-1 hover:border-champagne/40 hover:bg-ivory/[0.075]"
                 data-delay={index > 2 ? undefined : index + 1}
               >
-                <p className="font-display text-xl leading-relaxed text-ivory/80">
+                <span
+                  aria-hidden="true"
+                  className="absolute right-6 top-4 font-display text-[3.5rem] leading-none text-champagne/25 transition-colors duration-700 group-hover:text-champagne/55"
+                >
+                  &rdquo;
+                </span>
+                <p className="relative font-display text-xl leading-relaxed text-ivory/85">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
-                <figcaption className="mt-5 text-[10px] uppercase tracking-[0.2em] text-ivory/40">
+                <figcaption className="relative mt-6 flex items-center gap-3 border-t border-ivory/10 pt-5 text-[10px] uppercase tracking-[0.2em] text-ivory/40">
+                  <span className="h-px w-6 bg-champagne/60" aria-hidden="true" />
                   {testimonial.name} <span className="text-champagne">/</span>{" "}
                   {testimonial.service}
                 </figcaption>
@@ -391,7 +469,7 @@ export default function HomePage() {
       <section className="shell py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
           <div className="reveal relative order-2 lg:order-1 lg:col-span-6">
-            <div className="aspect-[5/4] overflow-hidden bg-ink/10">
+            <div className="aspect-[5/4] overflow-hidden bg-ink/10 shadow-[0_40px_80px_-50px_rgba(11,10,9,0.8)]">
               <img
                 src={images.sneakers}
                 alt="Branded sneakers from the Crankified's vault"
@@ -399,7 +477,7 @@ export default function HomePage() {
                 className="img-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -right-2 hidden w-44 border border-line bg-cream p-5 sm:block md:-right-6 md:w-52 md:p-6">
+            <div className="glass absolute -bottom-6 -right-2 hidden w-44 p-5 shadow-[0_30px_60px_-34px_rgba(11,10,9,0.6)] sm:block md:-right-6 md:w-52 md:p-6">
               <p className="label text-champagne">Delivery</p>
               <p className="display mt-2 text-3xl">1&ndash;3 days</p>
               <p className="mt-2 text-[11.5px] leading-relaxed text-ink/55">
@@ -410,11 +488,11 @@ export default function HomePage() {
 
           <div className="order-1 lg:order-2 lg:col-span-5 lg:col-start-8">
             <div className="reveal">
-              <SectionLabel index="03">The vault</SectionLabel>
+              <SectionLabel index="04">The vault</SectionLabel>
               <h2 className="display mt-6 text-[clamp(2.6rem,4.8vw,4.4rem)]">
                 Beyond
                 <br />
-                the <span className="italic">chair.</span>
+                the <span className="italic text-gold">chair.</span>
               </h2>
               <p className="lede mt-6 max-w-md text-ink/65">
                 Brand-new and pre-owned iPhones, branded sneakers and a few quiet flexes.
@@ -428,14 +506,14 @@ export default function HomePage() {
                 <li key={product!.id}>
                   <Link
                     href={`/shop?product=${product!.id}`}
-                    className="group flex items-center gap-4 border-b border-line py-4"
+                    className="group flex items-center gap-4 border-b border-line py-4 transition-colors hover:bg-ink/[0.03]"
                   >
                     <div className="h-16 w-16 shrink-0 overflow-hidden bg-ink/5">
                       <img
                         src={product!.image}
                         alt={product!.name}
                         loading="lazy"
-                        className="img-cover transition-transform duration-700 group-hover:scale-105"
+                        className="img-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -448,14 +526,14 @@ export default function HomePage() {
                     <span className="shrink-0 font-display text-lg">
                       {formatZAR(product!.price)}
                     </span>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink/30 transition-colors group-hover:text-champagne" />
+                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink/30 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-champagne" />
                   </Link>
                 </li>
               ))}
             </ul>
 
             <div className="reveal mt-8 flex flex-wrap items-center gap-5" data-delay="2">
-              <Link href="/shop" className="btn btn-ink">
+              <Link href="/shop" className="btn btn-ink shine">
                 Enter the vault <ArrowRight />
               </Link>
               <p className="text-[11px] uppercase tracking-[0.18em] text-ink/45">
@@ -472,7 +550,7 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
             <div className="lg:col-span-6">
               <div className="reveal">
-                <SectionLabel index="04">The referral programme</SectionLabel>
+                <SectionLabel index="05">The referral programme</SectionLabel>
                 <h2 className="display mt-6 text-[clamp(2.6rem,4.8vw,4.4rem)]">
                   Refer three.
                   <br />
@@ -484,10 +562,10 @@ export default function HomePage() {
                   Thursday, and let us take care of the rest.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Link href="/referrals" className="btn btn-ink">
+                  <Link href="/referrals" className="btn btn-ink shine">
                     How it works <ArrowRight />
                   </Link>
-                  <Link href="/referrals#claim" className="btn btn-outline">
+                  <Link href="/referrals#claim" className="btn btn-ghost">
                     Claim a gift
                   </Link>
                 </div>
@@ -495,27 +573,30 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-5 lg:col-start-8">
-              <div className="reveal border-t border-ink/15" data-delay="1">
-                {rewards.map((reward, index) => (
-                  <div
-                    key={reward.id}
-                    className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-ink/15 py-5"
-                  >
-                    <span className="font-display text-sm italic text-champagne">
-                      0{index + 1}
-                    </span>
-                    <div>
-                      <p className="font-display text-[1.35rem] leading-tight">
-                        {reward.name}
-                      </p>
-                      <p className="mt-1 text-[11.5px] text-ink/50">{reward.description}</p>
+              <div className="reveal lux-card p-7 md:p-8" data-delay="1">
+                <p className="label text-champagne">Choose your gift</p>
+                <div className="mt-4">
+                  {rewards.map((reward, index) => (
+                    <div
+                      key={reward.id}
+                      className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-ink/12 py-5 transition-colors last:border-b-0 hover:bg-ink/[0.02]"
+                    >
+                      <span className="font-display text-sm italic text-champagne">
+                        0{index + 1}
+                      </span>
+                      <div>
+                        <p className="font-display text-[1.35rem] leading-tight">
+                          {reward.name}
+                        </p>
+                        <p className="mt-1 text-[11.5px] text-ink/50">{reward.description}</p>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.16em] text-ink/40">
+                        {formatZAR(reward.value)}
+                      </span>
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.16em] text-ink/40">
-                      {formatZAR(reward.value)}
-                    </span>
-                  </div>
-                ))}
-                <p className="mt-4 text-[11px] leading-relaxed text-ink/45">
+                  ))}
+                </div>
+                <p className="mt-4 border-t border-ink/12 pt-4 text-[11px] leading-relaxed text-ink/45">
                   One gift per client, after three completed referrals. Value shown is
                   the menu price of the complimentary service.
                 </p>
@@ -529,7 +610,7 @@ export default function HomePage() {
       <section className="shell py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="reveal lg:col-span-7">
-            <SectionLabel index="05">Appointments</SectionLabel>
+            <SectionLabel index="06">Appointments</SectionLabel>
             <h2 className="display mt-6 text-[clamp(2.8rem,5.6vw,5.2rem)] text-balance">
               Your chair is
               <br />
@@ -541,7 +622,7 @@ export default function HomePage() {
               appointment personally.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/book" className="btn btn-ink">
+              <Link href="/book" className="btn btn-ink shine">
                 Book an appointment <ArrowRight />
               </Link>
               <span className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink/45">
@@ -552,7 +633,7 @@ export default function HomePage() {
           </div>
 
           <div className="reveal lg:col-span-4 lg:col-start-9" data-delay="1">
-            <div className="panel p-7 md:p-8">
+            <div className="lux-card p-7 md:p-8">
               <div className="flex items-baseline justify-between">
                 <h3 className="label text-ink">Studio hours</h3>
                 <span className="text-[9px] uppercase tracking-[0.18em] text-champagne">
@@ -619,7 +700,7 @@ export default function HomePage() {
       <section className="border-t border-line bg-[#f6f0e6]">
         <div className="shell grid gap-10 py-20 md:py-24 lg:grid-cols-12">
           <div className="reveal lg:col-span-4">
-            <SectionLabel index="06">Good to know</SectionLabel>
+            <SectionLabel index="07">Good to know</SectionLabel>
             <h2 className="display mt-6 text-[clamp(2.3rem,3.6vw,3.4rem)]">
               Questions,
               <br />
@@ -631,26 +712,28 @@ export default function HomePage() {
           </div>
 
           <div className="reveal lg:col-span-7 lg:col-start-6" data-delay="1">
-            {faqs.map((faq, index) => (
-              <details key={faq.q} className="group border-b border-line">
-                <summary className="flex items-start justify-between gap-6 py-5">
-                  <span className="flex gap-4 text-[14.5px] leading-snug">
-                    <span className="font-display text-sm italic text-champagne">
-                      0{index + 1}
+            <div className="lux-card px-6 md:px-9">
+              {faqs.map((faq, index) => (
+                <details key={faq.q} className="group border-b border-ink/12 last:border-b-0">
+                  <summary className="flex items-start justify-between gap-6 py-5 transition-colors hover:text-champagne-deep">
+                    <span className="flex gap-4 text-[14.5px] leading-snug">
+                      <span className="font-display text-sm italic text-champagne">
+                        0{index + 1}
+                      </span>
+                      {faq.q}
                     </span>
-                    {faq.q}
-                  </span>
-                  <span className="faq-plus mt-0.5 shrink-0 transition-transform duration-300">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                      <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="1" />
-                    </svg>
-                  </span>
-                </summary>
-                <p className="pb-6 pl-8 pr-10 text-[13px] leading-relaxed text-ink/60">
-                  {faq.a}
-                </p>
-              </details>
-            ))}
+                    <span className="faq-plus mt-0.5 shrink-0 transition-transform duration-300">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="1" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p className="pb-6 pl-8 pr-10 text-[13px] leading-relaxed text-ink/60">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>

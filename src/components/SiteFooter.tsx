@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site, siteUrl, telHref, whatsappHref } from "@/lib/site";
+import { Ambient } from "./Ambient";
 import { Wordmark } from "./Wordmark";
 import { ArrowUpRight, Instagram, Phone, Pin, TikTok, WhatsApp } from "./icons";
 
@@ -39,8 +40,9 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-ink text-ivory">
-      <div className="shell pt-16 pb-10 md:pt-20">
+    <footer className="relative isolate overflow-hidden bg-ink text-ivory">
+      <Ambient />
+      <div className="shell relative pt-16 pb-10 md:pt-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <Wordmark light />
@@ -50,7 +52,7 @@ export function SiteFooter() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/book" className="btn btn-gold">
+              <Link href="/book" className="btn btn-lux shine">
                 Book an appointment <ArrowUpRight />
               </Link>
               {(phone || whatsapp) && (
@@ -58,7 +60,7 @@ export function SiteFooter() {
                   href={(whatsapp ?? phone)!}
                   target={whatsapp ? "_blank" : undefined}
                   rel={whatsapp ? "noopener noreferrer" : undefined}
-                  className="btn btn-outline-light"
+                  className="btn btn-ghost-light"
                 >
                   {whatsapp ? <WhatsApp /> : <Phone />}
                   {whatsapp ? "WhatsApp" : "Call"}
@@ -184,9 +186,13 @@ export function SiteFooter() {
       </div>
 
       <div aria-hidden="true" className="select-none overflow-hidden">
-        <p className="wordmark shell whitespace-nowrap pb-2 text-[15vw] leading-[0.78] text-ivory/[0.05] md:text-[13.5vw]">
+        <p className="wordmark shell whitespace-nowrap pb-2 text-[15vw] leading-[0.78] text-transparent md:text-[13.5vw] [-webkit-text-stroke:1px_rgba(194,160,106,0.22)]">
           Crankified&rsquo;s
         </p>
+      </div>
+
+      <div aria-hidden="true" className="shell">
+        <div className="gold-rule opacity-40" />
       </div>
 
       <div className="border-t border-ivory/10">

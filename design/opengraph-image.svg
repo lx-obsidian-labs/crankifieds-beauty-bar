@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Crankified's Beauty Bar — Hair, Lashes, Nails">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141210"/>
+      <stop offset="45%" stop-color="#0b0a09"/>
+      <stop offset="100%" stop-color="#1a1512"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b9944f"/>
+      <stop offset="28%" stop-color="#f3e3b8"/>
+      <stop offset="52%" stop-color="#d9bb77"/>
+      <stop offset="78%" stop-color="#f7ecd0"/>
+      <stop offset="100%" stop-color="#b9944f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#c9a45c" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#c9a45c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b9944f" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#e6cf9a" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#b9944f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e6d3ae" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#9a7a3f" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g stroke="url(#rule)" stroke-width="1">
+    <line x1="90" y1="104" x2="1110" y2="104"/>
+    <line x1="90" y1="526" x2="1110" y2="526"/>
+  </g>
+
+  <!-- Monogram medallion -->
+  <g transform="translate(600 174)">
+    <circle r="52" fill="none" stroke="url(#gold)" stroke-width="1.25" opacity="0.85"/>
+    <circle r="44" fill="none" stroke="url(#gold)" stroke-width="0.6" opacity="0.45"/>
+    <text x="0" y="17" text-anchor="middle" font-family="Didot, 'Bodoni MT', Georgia, serif" font-size="44" letter-spacing="1" fill="url(#gold)">C</text>
+  </g>
+
+  <text x="600" y="286" text-anchor="middle" font-family="Didot, 'Bodoni MT', Georgia, serif" font-size="76" letter-spacing="2" fill="url(#gold)">Crankified&#8217;s</text>
+
+  <text x="600" y="346" text-anchor="middle" font-family="Jost, Futura, 'Century Gothic', sans-serif" font-size="23" letter-spacing="13" fill="#f3ece0" opacity="0.88">BEAUTY BAR</text>
+
+  <text x="600" y="416" text-anchor="middle" font-family="Jost, Futura, 'Century Gothic', sans-serif" font-size="19" letter-spacing="7" fill="#cbb894" opacity="0.9">HAIR &#183; LASHES &#183; NAILS</text>
+
+  <text x="600" y="474" text-anchor="middle" font-family="Jost, Futura, 'Century Gothic', sans-serif" font-size="15" letter-spacing="4" fill="#8d8377" opacity="0.95">ERMELO, MPUMALANGA &#183; BY APPOINTMENT</text>
+
+  <!-- Decorative corner flourishes -->
+  <g stroke="url(#gold)" stroke-width="1.1" fill="none" opacity="0.55">
+    <path d="M90 150 L90 104 L136 104"/>
+    <path d="M1110 150 L1110 104 L1064 104"/>
+    <path d="M90 480 L90 526 L136 526"/>
+    <path d="M1110 480 L1110 526 L1064 526"/>
+  </g>
+</svg>

@@ -27,6 +27,10 @@ export function Wordmark({ light = false, compact = false, className = "" }: Pro
       >
         Beauty&nbsp;Bar&nbsp;&middot;&nbsp;Ermelo
       </span>
+      <span
+        aria-hidden="true"
+        className="mt-2 h-px w-0 bg-[linear-gradient(90deg,var(--color-champagne),transparent)] transition-all duration-700 group-hover:w-full"
+      />
     </Link>
   );
 }
