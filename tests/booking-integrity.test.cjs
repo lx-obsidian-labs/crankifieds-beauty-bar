@@ -64,3 +64,12 @@ test('administrator status mutation requires both authentication and trusted ori
   assert.match(statusRoute, /fetchSite !== "same-origin"/);
   assert.match(statusRoute, /await isAdmin\(\)/);
 });
+
+const limiter = fs.readFileSync(path.join(__dirname, '../src/lib/rate-limit.ts'), 'utf8');
+
+test('process-local limiter bounds the number of tracked clients', () => {
+  assert.match(limiter, /const MAX_BUCKETS = 5000/);
+  assert.match(limiter, /while \(buckets\.size >= MAX_BUCKETS\)/);
+  assert.match(limiter, /buckets\.delete\(oldest\)/);
+  assert.match(limiter, /bucket\.resetAt <= now/);
+});
