@@ -97,6 +97,7 @@ const emptyStore = (): LocalStore => ({
 });
 
 async function readLocal(): Promise<LocalStore> {
+  if (isLambda) throw new Error("DATABASE_URL is required for persistent production storage");
   if (memoryStore) return memoryStore;
   try {
     const raw = await fs.readFile(localPath, "utf8");
@@ -119,6 +120,7 @@ async function writeLocal(store: LocalStore) {
 }
 
 function mutateLocal<T>(fn: (store: LocalStore) => T | Promise<T>): Promise<T> {
+  if (isLambda) return Promise.reject(new Error("DATABASE_URL is required for persistent production storage"));
   const next = localQueue.then(async () => {
     const store = await readLocal();
     const result = await fn(store);
