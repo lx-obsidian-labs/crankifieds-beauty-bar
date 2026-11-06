@@ -181,6 +181,20 @@ function ensureSchema() {
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         )`,
         `CREATE INDEX IF NOT EXISTS bookings_date_idx ON bookings (date)`,
+        `CREATE EXTENSION IF NOT EXISTS btree_gist`,
+        `DO $ BEGIN
+          IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'bookings_no_overlap') THEN
+            ALTER TABLE bookings ADD CONSTRAINT bookings_no_overlap
+            EXCLUDE USING gist (
+              date WITH =,
+              int4range(
+                split_part(time, ':', 1)::integer * 60 + split_part(time, ':', 2)::integer,
+                split_part(time, ':', 1)::integer * 60 + split_part(time, ':', 2)::integer + duration + 15,
+                '[)'
+              ) WITH &&
+            ) WHERE (status <> 'cancelled');
+          END IF;
+        END $`,
         `CREATE TABLE IF NOT EXISTS orders (
           id BIGSERIAL PRIMARY KEY,
           reference TEXT UNIQUE NOT NULL,
