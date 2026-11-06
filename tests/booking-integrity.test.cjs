@@ -22,3 +22,23 @@ test('booking conflicts return HTTP 409 to clients', () => {
 test('production refuses ephemeral storage when database is absent', () => {
   assert.match(db, /DATABASE_URL is required for persistent production storage/);
 });
+
+const admin = fs.readFileSync(path.join(__dirname, '../src/lib/admin.ts'), 'utf8');
+const login = fs.readFileSync(path.join(__dirname, '../src/app/api/admin/login/route.ts'), 'utf8');
+
+test('admin sessions have signed issuance timestamps and bounded lifetime', () => {
+  assert.match(admin, /SESSION_SECONDS = 8 \* 60 \* 60/);
+  assert.match(admin, /verifyAdminToken/);
+  assert.match(admin, /timingSafeEqual/);
+  assert.match(admin, /now - issued > SESSION_SECONDS/);
+});
+
+test('administrator credentials have no default fallback', () => {
+  assert.doesNotMatch(admin, /crankified-studio/);
+  assert.match(admin, /process\.env\.ADMIN_PASSCODE/);
+});
+
+test('admin login checks request origin', () => {
+  assert.match(login, /request\.headers\.get\("origin"\)/);
+  assert.match(login, /status: 403/);
+});
