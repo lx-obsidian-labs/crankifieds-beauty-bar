@@ -2,7 +2,7 @@
 
 **Development stage:** Active Development — functionality exists, but release readiness is not independently verified.  
 **Verification:** Typecheck, lint and build gates configured in GitHub Actions; successful runs are not yet confirmed.  
-**Next milestone:** Automated booking conflict and admin authorization tests, then verified mobile and accessibility checks.
+**Next milestone:** Enforce atomic booking conflict prevention in the database, add admin authorization tests, and verify mobile and accessibility behavior. Booking availability is currently checked before insertion and is not yet guaranteed atomic under concurrent requests.
 
 Project maturity is not a quality rating. Planned features are excluded from defect counts; implemented behavior and security are assessed against evidence. [Evaluation rubric](https://github.com/lx-obsidian-labs/lx-obsidian-labs/blob/main/PORTFOLIO_EVALUATION.md).
 
@@ -48,8 +48,7 @@ npm run dev
 
 Open http://localhost:3000. The owner desk is at `/admin`.
 
-Without `DATABASE_URL`, data is written to `.data/store.json` (git-ignored) so
-the full booking and ordering flows work locally.
+Without `DATABASE_URL`, local development writes to `.data/store.json` (git-ignored). In Vercel/AWS Lambda environments, database operations now fail closed when `DATABASE_URL` is missing rather than acknowledging temporary storage as durable. Configure and verify a persistent database before deploying.
 
 ```bash
 npm run typecheck
