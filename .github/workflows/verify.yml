@@ -26,6 +26,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Booking integrity regression tests
+        run: npm test
       - name: TypeScript
         run: npm run typecheck
       - name: ESLint
