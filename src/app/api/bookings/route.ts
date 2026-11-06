@@ -110,6 +110,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {
+    const dbError = error as { code?: string; cause?: { code?: string }; message?: string };
+    if (dbError.code === "23P01" || dbError.cause?.code === "23P01" || /conflicting key value violates exclusion constraint/i.test(dbError.message ?? "")) {
+      return NextResponse.json(
+        { error: "That time has just been taken. Please choose another slot." },
+        { status: 409 },
+      );
+    }
     console.error("booking failed", error);
     return NextResponse.json(
       {
