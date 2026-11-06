@@ -1,5 +1,11 @@
 # Crankified's Beauty Bar
 
+**Development stage:** Active Development — functionality exists, but release readiness is not independently verified.  
+**Verification:** Typecheck, lint and build gates configured in GitHub Actions; successful runs are not yet confirmed.  
+**Next milestone:** Automated booking conflict and admin authorization tests, then verified mobile and accessibility checks.
+
+Project maturity is not a quality rating. Planned features are excluded from defect counts; implemented behavior and security are assessed against evidence. [Evaluation rubric](https://github.com/lx-obsidian-labs/lx-obsidian-labs/blob/main/PORTFOLIO_EVALUATION.md).
+
 A premium, appointment-led website for Crankified's Beauty Bar in Ermelo:
 hair, lashes and nails, plus a small vault of brand-new and pre-owned iPhones,
 sneakers and accessories.
@@ -25,6 +31,12 @@ Built with Next.js 16 (App Router), React 19, Tailwind CSS 4 and Postgres
   referral claims and contact messages, with status actions.
 - **Contact form** — stored in the database so the site works even before phone
   and WhatsApp details are published.
+
+## Engineering evidence
+
+- [Architecture and limitations](docs/ENGINEERING_CASE_STUDY.md)
+- [CI verification workflow](.github/workflows/verify.yml)
+- [Booking configuration](src/lib/site.ts)
 
 ## Local development
 
