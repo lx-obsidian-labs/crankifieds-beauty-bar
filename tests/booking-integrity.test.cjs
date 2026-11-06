@@ -55,3 +55,12 @@ test('admin login has both client and process-wide throttles', () => {
   assert.match(login, /rateLimit\("admin-login:all"/);
   assert.match(login, /rateLimit\(clientKey\(request, "admin-login"\)/);
 });
+
+const statusRoute = fs.readFileSync(path.join(__dirname, '../src/app/api/admin/status/route.ts'), 'utf8');
+
+test('administrator status mutation requires both authentication and trusted origin', () => {
+  assert.match(statusRoute, /export async function PATCH\(request: Request\)/);
+  assert.match(statusRoute, /origin !== new URL\(request\.url\)\.origin/);
+  assert.match(statusRoute, /fetchSite !== "same-origin"/);
+  assert.match(statusRoute, /await isAdmin\(\)/);
+});
