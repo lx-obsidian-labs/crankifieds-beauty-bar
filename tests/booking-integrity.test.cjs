@@ -73,3 +73,8 @@ test('process-local limiter bounds the number of tracked clients', () => {
   assert.match(limiter, /buckets\.delete\(oldest\)/);
   assert.match(limiter, /bucket\.resetAt <= now/);
 });
+
+test('admin session token pattern uses real digit and separator escapes', () => {
+  assert.ok(admin.includes(String.raw`/^\d{10}\.[a-f0-9]{64}$/`));
+  assert.ok(!admin.includes(String.raw`/^\\d{10}\\.[a-f0-9]{64}$/`));
+});
