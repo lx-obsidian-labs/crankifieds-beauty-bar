@@ -42,3 +42,16 @@ test('admin login checks request origin', () => {
   assert.match(login, /request\.headers\.get\("origin"\)/);
   assert.match(login, /status: 403/);
 });
+
+test('admin login and logout both enforce origin checks', () => {
+  assert.match(login, /function trustedMutation\(request: Request\)/);
+  assert.match(login, /origin === new URL\(request\.url\)\.origin/);
+  assert.match(login, /fetchSite === "same-origin"/);
+  assert.match(login, /export async function DELETE\(request: Request\)/);
+  assert.match(login, /if \(!trustedMutation\(request\)\)/);
+});
+
+test('admin login has both client and process-wide throttles', () => {
+  assert.match(login, /rateLimit\("admin-login:all"/);
+  assert.match(login, /rateLimit\(clientKey\(request, "admin-login"\)/);
+});
