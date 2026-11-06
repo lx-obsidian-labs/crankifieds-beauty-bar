@@ -182,7 +182,7 @@ function ensureSchema() {
         )`,
         `CREATE INDEX IF NOT EXISTS bookings_date_idx ON bookings (date)`,
         `CREATE EXTENSION IF NOT EXISTS btree_gist`,
-        `DO $ BEGIN
+        `DO $$ BEGIN
           IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'bookings_no_overlap') THEN
             ALTER TABLE bookings ADD CONSTRAINT bookings_no_overlap
             EXCLUDE USING gist (
@@ -194,7 +194,7 @@ function ensureSchema() {
               ) WITH &&
             ) WHERE (status <> 'cancelled');
           END IF;
-        END $`,
+        END $$`,
         `CREATE TABLE IF NOT EXISTS orders (
           id BIGSERIAL PRIMARY KEY,
           reference TEXT UNIQUE NOT NULL,
