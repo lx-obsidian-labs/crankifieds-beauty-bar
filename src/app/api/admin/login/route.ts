@@ -2,10 +2,17 @@ import { NextResponse } from "next/server";
 import { ADMIN_COOKIE, checkPasscode, tokenFor } from "@/lib/admin";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { clean } from "@/lib/validation";
+import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  const requestOrigin = new URL(request.url).origin;
+  const configuredOrigin = new URL(siteUrl()).origin;
+  if (!origin || (origin !== requestOrigin && origin !== configuredOrigin)) {
+    return NextResponse.json({ error: "Untrusted origin." }, { status: 403 });
+  }
   const limit = rateLimit(clientKey(request, "admin-login"), 8, 15 * 60 * 1000);
   if (!limit.allowed) {
     return NextResponse.json(
