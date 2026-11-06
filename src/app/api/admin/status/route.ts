@@ -10,6 +10,11 @@ const orderStatuses: OrderStatus[] = ["new", "sourcing", "ready", "collected", "
 const referralStatuses = ["pending", "rewarded", "cancelled"] as const;
 
 export async function PATCH(request: Request) {
+  const origin = request.headers.get("origin");
+  const fetchSite = request.headers.get("sec-fetch-site");
+  if (origin !== new URL(request.url).origin || (fetchSite && fetchSite !== "same-origin")) {
+    return NextResponse.json({ error: "Untrusted origin." }, { status: 403 });
+  }
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   }
