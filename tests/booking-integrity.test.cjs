@@ -78,3 +78,11 @@ test('admin session token pattern uses real digit and separator escapes', () => 
   assert.ok(admin.includes(String.raw`/^\d{10}\.[a-f0-9]{64}$/`));
   assert.ok(!admin.includes(String.raw`/^\\d{10}\\.[a-f0-9]{64}$/`));
 });
+
+const nextConfig = fs.readFileSync(path.join(__dirname, '../next.config.ts'), 'utf8');
+
+test('Next.js defines baseline response security headers', () => {
+  for (const header of ['X-Content-Type-Options', 'Referrer-Policy', 'X-Frame-Options', 'Permissions-Policy', 'Cross-Origin-Opener-Policy']) {
+    assert.ok(nextConfig.includes(header), `Missing security header: ${header}`);
+  }
+});
