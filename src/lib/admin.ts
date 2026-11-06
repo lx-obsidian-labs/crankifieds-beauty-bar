@@ -28,7 +28,7 @@ export function checkPasscode(candidate: string) {
 }
 
 export function verifyAdminToken(token: string, passcode: string, now = Math.floor(Date.now() / 1000)) {
-  if (!passcode || !/^\\d{10}\\.[a-f0-9]{64}$/.test(token)) return false;
+  if (!passcode || !/^\d{10}\.[a-f0-9]{64}$/.test(token)) return false;
   const [issuedText, signature] = token.split(".");
   const issued = Number(issuedText);
   if (!Number.isSafeInteger(issued) || issued > now + 30 || now - issued > SESSION_SECONDS) return false;
