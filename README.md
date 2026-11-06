@@ -2,7 +2,7 @@
 
 **Development stage:** Active Development — functionality exists, but release readiness is not independently verified.  
 **Verification:** Typecheck, lint and build gates configured in GitHub Actions; successful runs are not yet confirmed.  
-**Next milestone:** Enforce atomic booking conflict prevention in the database, add admin authorization tests, and verify mobile and accessibility behavior. Booking availability is currently checked before insertion and is not yet guaranteed atomic under concurrent requests.
+**Next milestone:** Verify the PostgreSQL exclusion constraint against concurrent booking requests and existing data, add admin authorization tests, and verify mobile and accessibility behavior. Database-level overlap prevention is implemented but has not yet been independently integration-tested.
 
 Project maturity is not a quality rating. Planned features are excluded from defect counts; implemented behavior and security are assessed against evidence. [Evaluation rubric](https://github.com/lx-obsidian-labs/lx-obsidian-labs/blob/main/PORTFOLIO_EVALUATION.md).
 
