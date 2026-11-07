@@ -1,6 +1,7 @@
 # Crankified's Beauty Bar
 
 **Development stage:** Active Development — functionality exists, but release readiness is not independently verified.  
+**CI blocker (2026-11-07):** [Verify application run 42397057238](https://github.com/lx-obsidian-labs/crankifieds-beauty-bar/actions/runs/42397057238) failed at the **TypeScript** step on commit `b6b83db40b060c87c2bf5b6289cbaa7f76514c8e`. Do not claim passing CI until a later successful run is verified.  
 **Verification:** Typecheck, lint and build gates configured in GitHub Actions; successful runs are not yet confirmed.  
 **Next milestone:** Verify the PostgreSQL exclusion constraint against concurrent booking requests and existing data, add admin authorization tests, and verify mobile and accessibility behavior. Database-level overlap prevention is implemented but has not yet been independently integration-tested.
 
