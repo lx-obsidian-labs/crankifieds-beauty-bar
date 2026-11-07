@@ -111,3 +111,9 @@ test('administrator login requires a separate signing secret and handles missing
   const example = fs.readFileSync(path.join(__dirname, '../.env.example'), 'utf8');
   assert.match(example, /^ADMIN_SESSION_SECRET=/m);
 });
+
+test('rate limiter does not trust forwarded-for by default', () => {
+  assert.doesNotMatch(limiter, /headers\.get\("x-forwarded-for"\)/);
+  assert.match(limiter, /TRUSTED_CLIENT_IP_HEADER/);
+  assert.match(limiter, /"unidentified"/);
+});
