@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ADMIN_COOKIE, checkPasscode, tokenFor } from "@/lib/admin";
+import { ADMIN_COOKIE, adminSessionSecret, checkPasscode, tokenFor } from "@/lib/admin";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { clean } from "@/lib/validation";
 
@@ -34,6 +34,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
+  if (!adminSessionSecret()) {
+    return NextResponse.json({ error: "Administrator login is not configured." }, { status: 503 });
+  }
+
   if (!passcode || !checkPasscode(passcode)) {
     return NextResponse.json({ error: "That passcode is not right." }, { status: 401 });
   }
@@ -41,7 +45,7 @@ export async function POST(request: Request) {
   const response = NextResponse.json({ ok: true });
   response.cookies.set({
     name: ADMIN_COOKIE,
-    value: tokenFor(passcode),
+    value: tokenFor(),
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
