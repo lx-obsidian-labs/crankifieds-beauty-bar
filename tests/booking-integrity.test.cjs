@@ -69,8 +69,9 @@ const limiter = fs.readFileSync(path.join(__dirname, '../src/lib/rate-limit.ts')
 
 test('process-local limiter bounds the number of tracked clients', () => {
   assert.match(limiter, /const MAX_BUCKETS = 5000/);
-  assert.match(limiter, /while \(buckets\.size >= MAX_BUCKETS\)/);
-  assert.match(limiter, /buckets\.delete\(oldest\)/);
+  assert.match(limiter, /if \(buckets\.size >= MAX_BUCKETS\)/);
+  assert.match(limiter, /allowed: false, retryAfter:/);
+  assert.doesNotMatch(limiter, /buckets\.delete\(oldest\)/);
   assert.match(limiter, /bucket\.resetAt <= now/);
 });
 
