@@ -96,6 +96,7 @@ are created automatically on first write.
 ```bash
 vercel env add DATABASE_URL production
 vercel env add ADMIN_PASSCODE production
+vercel env add ADMIN_SESSION_SECRET production
 ```
 
 ## Deploying
@@ -110,8 +111,16 @@ vercel --prod
 A strong passcode can be generated with:
 
 ```bash
-node -e "console.log(require('crypto').randomBytes(9).toString('base64url'))"
+node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
 ```
+
+Generate a **separate** session signing secret (do not reuse the passcode):
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
+Set the generated value as `ADMIN_SESSION_SECRET` in every environment that serves administrator logins. Missing or short secrets disable administrator authentication; rotating the secret invalidates existing sessions. Do not commit credentials or signing secrets. The process-local login limiter is not sufficient for multi-instance production deployments; configure a shared or edge rate limiter before public launch. Verify authentication and booking concurrency against the deployed service.
 
 ## Notes
 
