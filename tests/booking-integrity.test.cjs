@@ -100,3 +100,13 @@ test('authenticated administrator dashboard HTML is not cacheable', () => {
   assert.match(adminPage, /await isAdmin\(\)/);
   assert.match(adminPage, /dynamic = "force-dynamic"/);
 });
+
+test('administrator login requires a separate signing secret and handles missing configuration', () => {
+  assert.match(admin, /process\.env\.ADMIN_SESSION_SECRET/);
+  assert.match(login, /if \(!adminSessionSecret\(\)\)/);
+  assert.match(login, /Administrator login is not configured/);
+  assert.match(login, /status: 503/);
+  assert.match(login, /value: tokenFor\(\)/);
+  const example = fs.readFileSync(path.join(__dirname, '../.env.example'), 'utf8');
+  assert.match(example, /^ADMIN_SESSION_SECRET=/m);
+});
