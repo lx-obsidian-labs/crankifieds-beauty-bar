@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [{
+      source: "/api/admin/:path*",
+      headers: [
+        { key: "Cache-Control", value: "no-store, private" },
+        { key: "Pragma", value: "no-cache" },
+      ],
+    }, {
       source: "/:path*",
       headers: [
         { key: "X-Content-Type-Options", value: "nosniff" },
