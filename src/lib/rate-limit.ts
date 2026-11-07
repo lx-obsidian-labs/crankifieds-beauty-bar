@@ -36,9 +36,12 @@ export function rateLimit(key: string, limit = 6, windowMs = 10 * 60 * 1000) {
 }
 
 export function clientKey(request: Request, scope: string) {
-  // x-forwarded-for must be normalized by a trusted reverse proxy.
-  // Never treat this process-local key as a distributed security boundary.
-  const forwarded = request.headers.get("x-forwarded-for") ?? "";
-  const ip = forwarded.split(",")[0]?.trim() || "local";
+  // Do not trust client-supplied X-Forwarded-For by default.
+  // Only use a single-address header when an upstream trusted proxy is
+  // configured to overwrite it and strip client-provided copies.
+  const trustedHeader = process.env.TRUSTED_CLIENT_IP_HEADER?.toLowerCase();
+  const supported = trustedHeader === "cf-connecting-ip" || trustedHeader === "x-real-ip";
+  const raw = supported ? request.headers.get(trustedHeader) ?? "" : "";
+  const ip = raw.length <= 45 && /^[a-fA-F0-9:.]+$/.test(raw) ? raw : "unidentified";
   return `${scope}:${ip}`;
 }
