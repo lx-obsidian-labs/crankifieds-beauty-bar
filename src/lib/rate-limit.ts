@@ -7,20 +7,20 @@ function pruneBuckets(now: number) {
   for (const [key, bucket] of buckets) {
     if (bucket.resetAt <= now) buckets.delete(key);
   }
-  // The limiter is best-effort and process-local. Cap its memory even when
-  // untrusted clients continuously present distinct forwarded addresses.
-  while (buckets.size >= MAX_BUCKETS) {
-    const oldest = buckets.keys().next().value;
-    if (oldest === undefined) break;
-    buckets.delete(oldest);
-  }
 }
 
 export function rateLimit(key: string, limit = 6, windowMs = 10 * 60 * 1000) {
   const now = Date.now();
   const bucket = buckets.get(key);
   if (!bucket || bucket.resetAt <= now) {
-    if (!bucket && buckets.size >= MAX_BUCKETS) pruneBuckets(now);
+    if (!bucket && buckets.size >= MAX_BUCKETS) {
+      pruneBuckets(now);
+      // Never evict a live bucket to admit a fresh, possibly spoofed identity.
+      // Saturation fails closed rather than resetting another client's limit.
+      if (buckets.size >= MAX_BUCKETS) {
+        return { allowed: false, retryAfter: Math.max(1, Math.ceil(windowMs / 1000)) };
+      }
+    }
     buckets.set(key, { count: 1, resetAt: now + windowMs });
     return { allowed: true, retryAfter: 0 };
   }
