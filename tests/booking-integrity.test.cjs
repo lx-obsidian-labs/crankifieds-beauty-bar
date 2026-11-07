@@ -92,3 +92,11 @@ test('administrator API responses are marked non-cacheable', () => {
   assert.match(nextConfig, /Cache-Control", value: "no-store, private"/);
   assert.match(nextConfig, /Pragma", value: "no-cache"/);
 });
+
+test('authenticated administrator dashboard HTML is not cacheable', () => {
+  assert.match(nextConfig, /source: "\/admin"/);
+  assert.match(nextConfig, /Cache-Control", value: "private, no-store, max-age=0"/);
+  const adminPage = fs.readFileSync(path.join(__dirname, '../src/app/admin/page.tsx'), 'utf8');
+  assert.match(adminPage, /await isAdmin\(\)/);
+  assert.match(adminPage, /dynamic = "force-dynamic"/);
+});
