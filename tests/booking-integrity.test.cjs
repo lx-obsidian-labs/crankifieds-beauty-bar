@@ -86,3 +86,9 @@ test('Next.js defines baseline response security headers', () => {
     assert.ok(nextConfig.includes(header), `Missing security header: ${header}`);
   }
 });
+
+test('administrator API responses are marked non-cacheable', () => {
+  assert.match(nextConfig, /source: "\/api\/admin\/:path\*"/);
+  assert.match(nextConfig, /Cache-Control", value: "no-store, private"/);
+  assert.match(nextConfig, /Pragma", value: "no-cache"/);
+});
